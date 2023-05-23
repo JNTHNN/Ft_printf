@@ -6,13 +6,16 @@
 #    By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 13:44:57 by jgasparo          #+#    #+#              #
-#    Updated: 2023/05/16 14:33:45 by jgasparo         ###   ########.fr        #
+#    Updated: 2023/05/23 15:56:22 by jgasparo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
 SRC = ft_printf.c \
+
+SRC_LIBFT = ../libft/libft.a
+
 
 OBJ = ${SRC:.c=.o}
 
@@ -25,7 +28,7 @@ REMOVE = rm -f
 all: $(NAME)
 
 $(NAME):	$(OBJ)
-	$(LIB) $(OBJ)
+	$(LIB) $(OBJ) $(SRC_LIBFT)
 
 clean:
 	@$(REMOVE) $(OBJ)

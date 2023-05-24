@@ -3,6 +3,35 @@
 
 int main(int ac, char **av)
 {
+   int  i = 1942989;
+   int *ptr = malloc(sizeof(int));
+   void *s = "Norman";
+
+   int res = printf("1 Char : %c %c\n", 'a', 19);
+   int res2 = ft_printf("ft_1 Char : %c %c\n", 'a', 19);
+   printf("res = %d et ft_res = %d\n", res, res2);
+   int res3 = printf("1 string : %s\n", "l'ecole c'est cool");
+   int res4 = ft_printf("ft_1 string : %s\n", "l'ecole c'est cool");
+   printf("res = %d et ft_res = %d\n", res3, res4);
+   int res5 = printf("___Pointer : %p\n", ptr);
+   int res6 = ft_printf("ft_Pointer : %p\n", ptr);
+   printf("res = %d et ft_res = %d\n", res5, res6);
+   int res7 = printf("Int : %d %i\n", 19, 19);
+   int res8 = ft_printf("ft_Int : %d %i\n", 19, 19);
+   printf("res = %d et ft_res = %d\n", res7, res8);
+   int res9 = printf("Unsigned Int : %u\n", 19);
+   int res10 = ft_printf("ft_Unsigned Int : %u\n", 19);
+   printf("res = %d et ft_res = %d\n", res9, res10);
+   int res11 = printf("Hexa min MAJ : %x %X\n", i, i);
+   int res12 = ft_printf("ft_Hexa min MAJ : %x %X\n", i, i);
+   printf("res = %d et ft_res = %d\n", res11, res12);
+   int res13 = printf("Pourcent : %%\n");
+   int res14 = ft_printf("ft_Pourcent : %%\n");
+   printf("res = %d et ft_res = %d\n", res13, res14);
+
+}
+
+
     /*ft_printf("ft_%d et %s\n", -42, "ok cool");
     printf("%d et %s", -42, "ok cool");
 
@@ -23,22 +52,3 @@ int main(int ac, char **av)
    printf ("%s \n", "A string");
    ft_printf ("%s \n", "ft_A string");
 */
-   printf("1 Char : %c %c\n", 'a', 19);
-   ft_printf("ft_1 Char : %c %c\n", 'a', 19);
-   printf("1 string : %s\n", "l'ecole c'est cool");
-   ft_printf("ft_1 string : %s\n", "l'ecole c'est cool");
-   int  i = 19;
-   void *s = "Norman";
-   printf("Pointer : %p\n", (char *)s);
-   ft_printf("ft_Pointer : %p\n", (char *)s);
-   printf("Int : %d %i\n", 19, 19);
-   ft_printf("ft_Int : %d %i\n", 19, 19);
-   printf("Unsigned Int : %u\n", 19);
-   ft_printf("ft_Unsigned Int : %u\n", 19);
-   printf("Hexa min MAJ : %x %X\n", i, i);
-   ft_printf("ft_Hexa min MAJ : %x %X\n", i, i);
-   printf("Pourcent : %%\n");
-   ft_printf("ft_Pourcent : %%\n");
-
-   
-}

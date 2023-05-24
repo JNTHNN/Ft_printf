@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 12:07:46 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/05/24 15:27:55 by jgasparo         ###   ########.fr       */
+/*   Created: 2023/04/06 09:04:55 by jgasparo          #+#    #+#             */
+/*   Updated: 2023/05/24 15:28:51 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_strlen(const char *s)
+void	ft_putchar_fd(char c, int fd)
 {
-	int	len;
-
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
+	write(fd, &c, 1);
 }

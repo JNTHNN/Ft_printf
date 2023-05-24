@@ -6,7 +6,7 @@
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:34:44 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/05/22 11:03:16 by jgasparo         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:29:53 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,11 @@ typedef struct s_print
 }	t_print;
 
 int	ft_printf(const char *format, ...);
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putstr_fd(char *s, int fd);
+int	ft_strlen(const char *s);
+void	*ft_memset(void *b, int c, size_t len);
 
 #endif

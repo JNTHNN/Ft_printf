@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 12:07:46 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/05/24 15:27:55 by jgasparo         ###   ########.fr       */
+/*   Created: 2023/04/03 12:16:08 by jgasparo          #+#    #+#             */
+/*   Updated: 2023/05/24 15:29:28 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_strlen(const char *s)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	int	len;
+	size_t			i;
+	char			*cb;
+	unsigned char	uc;
 
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
+	uc = (unsigned char) c;
+	cb = b;
+	i = 0;
+	while (len > i)
+	{
+		cb[i] = uc;
+		i++;
+	}
+	return (b);
 }

@@ -6,7 +6,7 @@
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:34:45 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/05/30 15:36:31 by jgasparo         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:37:58 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,13 @@ void	print_hexa(unsigned int nb, char c)
 
 void	convert(va_list args , char format)
 {
+	//int	count;
+
+	//count = 0;
 	if (format == 'd' || format == 'i')
 		ft_putnbr_fd(va_arg(args, int), 1);	
 	else if (format == 's')
-		count += str(va_arg(args, char *));
+		str(va_arg(args, char *));
 	else if (format == '%')
 		ft_putchar_fd('%', 1);
 	else if (format == 'c')
@@ -155,7 +158,7 @@ int	ft_printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			convert(args, format[i]);
+			count += convert(args, format[i]);
 		}
 	}
 	va_end(args);

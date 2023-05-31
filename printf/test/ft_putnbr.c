@@ -6,7 +6,7 @@
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:21:13 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/05/17 14:33:16 by jgasparo         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:36:42 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	ft_putnbr(long n)
 {
+	int count;
+
+	count = ft_count(n);
 	if (n < 0)
 	{
 		ft_putchar('-');
@@ -27,4 +30,5 @@ int	ft_putnbr(long n)
 	}
 	else
 		ft_putchar(n + '0');
+	return(count);
 }

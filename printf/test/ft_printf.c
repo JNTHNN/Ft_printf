@@ -6,33 +6,16 @@
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:34:45 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/05/30 15:37:58 by jgasparo         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:35:18 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-void	ft_uint(unsigned int i)
+size_t	ft_putchar(char c)
 {
-	if (i < 0)
-		i = -i;
-	if (i > 9)
-	{
-		ft_uint(i / 10);
-		ft_uint(i % 10);
-	}
-	else
-		ft_putchar_fd(i + '0', 1);
+	write(1, &c, 1);
+	return(1);
 }
-
-void	str(char *s)
-{
-	if (!s)
-		s = "(null)";
-	ft_strlen(s);
-	ft_putstr_fd(s, 1);
-}
-
 int	ft_count(int n)
 {
 	int	count;
@@ -52,6 +35,57 @@ int	ft_count(int n)
 	}
 	return (count);
 }
+void	ft_putnbr(int n, size_t *count)
+{
+	if (n > 9)
+	{
+		ft_putnbr(n / 10, count);
+		ft_putnbr(n % 10, count);
+	}
+	else if (n == -2147483648)
+	{
+		write(1, "-2147483648", 11);
+		(*count) += 11;
+		return ;
+	}
+	else if (n < 0)
+	{
+		n = -n;
+		ft_putchar('-');
+		(*count)++;
+		ft_putnbr(n, count);
+	}
+	else
+	{
+		n += '0';
+		write(1, &n, 1);
+		(*count)++;
+	}
+}
+void	ft_uint(unsigned int i, size_t *count)
+{
+	if (i < 0)
+		i = -i;
+	if (i > 9)
+	{
+		ft_uint(i / 10, count);
+		ft_uint(i % 10, count);
+	}
+	else
+	{
+		i += '0';
+		write(1, &i, 1);
+		(*count)++;
+	}
+}
+
+int	str(char *s)
+{
+	if (!s)
+		s = "(null)";
+	ft_putstr_fd(s, 1);
+	return (ft_strlen(s));
+}
 
 void	swap(char *a, char *b)
 {
@@ -69,10 +103,11 @@ char	*hexa(uintptr_t hex, char c)
 	int		i;
 	int		ihexa;	
 
+	result = NULL;
 	hexa = "0123456789abcdef";
 	if (c == 'X')
 		hexa = "0123456789ABCDEF";
-	result = ft_calloc(1, sizeof(char));
+	result = ft_calloc(0, sizeof(char));
 	i = 0;
 	while (hex > 0)
 	{
@@ -86,7 +121,7 @@ char	*hexa(uintptr_t hex, char c)
 	ft_strlen(result);
 }
 
-void	print_ptr(unsigned long ptr)
+int	print_ptr(unsigned long ptr)
 {
 	char		*result;
 	int			start;
@@ -97,19 +132,19 @@ void	print_ptr(unsigned long ptr)
 	end = ft_strlen(result) - 1;
 	while (start < end)
 		swap(&result[start++], &result[end--]);
-	ft_putchar_fd('0', 1);
-	ft_putchar_fd('x', 1);
+	ft_putchar('0');
+	ft_putchar('x');
 	ft_putstr_fd(result, 1);
-	ft_strlen(result);
+	return (ft_strlen(result));
 }
 
-void	print_hexa(unsigned int nb, char c)
+int	print_hexa(unsigned int nb, char c)
 {
 	char	*result;
 	int		start;
 	int		end;
 
-	if (!nb)
+	if (nb < 0)
 		nb = 0;
 	result = hexa(nb, c);
 	start = 0;
@@ -117,50 +152,56 @@ void	print_hexa(unsigned int nb, char c)
 	while (start < end)
 		swap(&result[start++], &result[end--]);
 	ft_putstr_fd(result, 1);
-	ft_strlen(result);
+	return (ft_strlen(result));
+}
+char	ft_check(char c)
+{
+	if	(c == 'c' || c == 'd' || c == 'i' || c == 's' || c == '%' || c == 'u' || c == 'p' || c == 'x' || c == 'X')
+		return (1);
+	return(0);
 }
 
-void	convert(va_list args , char format)
+int	convert(va_list args , char format, size_t count)
 {
-	//int	count;
-
-	//count = 0;
-	if (format == 'd' || format == 'i')
-		ft_putnbr_fd(va_arg(args, int), 1);	
+	if (format == 'c')
+		count += ft_putchar(va_arg(args, int));
 	else if (format == 's')
-		str(va_arg(args, char *));
-	else if (format == '%')
-		ft_putchar_fd('%', 1);
-	else if (format == 'c')
-	{
-		ft_putchar_fd(va_arg(args, int), 1);
-		//count++;
-	}
+		count += str(va_arg(args, char *));
+	else if (format == 'd' || format == 'i')
+		ft_putnbr(va_arg(args, int), &count);
 	else if (format == 'u')
-		ft_uint(va_arg(args, unsigned int));
+		ft_uint(va_arg(args, unsigned int), &count);
 	else if (format == 'p')
-		print_ptr((unsigned long)va_arg(args, void *));
+		count += print_ptr((unsigned long)va_arg(args, void *)) + 2;
 	else if (format == 'x' || format == 'X')
 		print_hexa(va_arg(args, unsigned int), format);
+	else if (format == '%')
+		count += ft_putchar('%');
+	return (count);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
-	int		i;
+	size_t		i;
+	size_t		count;
 
 	va_start(args, format);
-	i = -1;
-	while (format[++i])
+	i = 0;
+	count = 0;
+	if (!format)
+		return (0);
+	while (format[i])
 	{
-		if (format[i] != '%')
-			ft_putchar_fd(format[i], 1);
-		if (format[i] == '%')
+		if (format[i] == '%' && ft_check(format[i + 1]) == 1)
 		{
+			count = convert(args, format[i + 1], count);
 			i++;
-			count += convert(args, format[i]);
 		}
+		else
+			count += ft_putchar(format[i]);
+		i++;
 	}
 	va_end(args);
-	return (i);
+	return (count);
 }

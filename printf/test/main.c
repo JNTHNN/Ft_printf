@@ -55,6 +55,8 @@ int main(int ac, char **av)
    char *str= NULL;
    ft_printf("%s!\n", str);
    printf("%s!\n", str);
+   ft_printf("%x\n", -0);
+   printf("%x!\n", -0);
 }
 
 

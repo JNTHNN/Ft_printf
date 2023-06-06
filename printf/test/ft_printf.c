@@ -6,7 +6,7 @@
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:34:45 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/06/01 16:56:28 by jgasparo         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:12:23 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,12 @@ char	*hexa(uintptr_t hex, char c)
 	int		i;
 	int		ihexa;	
 
-	result = NULL;
 	hexa = "0123456789abcdef";
 	if (c == 'X')
 		hexa = "0123456789ABCDEF";
-	result = ft_calloc(16, sizeof(char));
+	result = (char *)malloc(17 * sizeof(char));
+	if (!result)
+		return (NULL);
 	i = 0;
 	while (hex > 0)
 	{
@@ -121,27 +122,33 @@ char	*hexa(uintptr_t hex, char c)
 	result[i] = '\0';
 	return (result);
 	ft_strlen(result);
+	free (result);
 }
 
 int	print_ptr(unsigned long ptr)
 {
 	char		*result;
+	char		*prefix;
 	int			start;
 	int			end;
 
-    if (!ptr)
+	result = NULL;
+	if (!ptr)
 	{
 		ft_putchar('0');
 		return (1);
 	}
+	prefix = "0x";
 	result = hexa((uintptr_t)ptr, 'c');
 	start = 0;
 	end = ft_strlen(result) - 1;
 	while (start < end)
 		swap(&result[start++], &result[end--]);
-	result += write(1, "0x", 2);
+	//result += write(1, "0x", 2);
+	return (ft_strlen(2 + result));
+	ft_putstr_fd(prefix, 1);
 	ft_putstr_fd(result, 1);
-	return (ft_strlen(result));
+	free(result);
 }
 
 int	print_hexa(unsigned int nb, char c)
@@ -150,6 +157,7 @@ int	print_hexa(unsigned int nb, char c)
 	int		start;
 	int		end;
 
+	result = NULL;
 	if (nb < 0)
 		nb = 0;
 	result = hexa(nb, c);
@@ -157,8 +165,9 @@ int	print_hexa(unsigned int nb, char c)
 	end = ft_strlen(result) - 1;
 	while (start < end)
 		swap(&result[start++], &result[end--]);
-	ft_putstr_fd(result, 1);
 	return (ft_strlen(result));
+	ft_putstr_fd(result, 1);
+	free(result);
 }
 /*char	ft_check(char c)
 {
@@ -188,7 +197,7 @@ int	convert(va_list args , char format, size_t count)
 
 int	ft_printf(const char *format, ...)
 {
-	va_list	args;
+	va_list		args;
 	size_t		i;
 	size_t		count;
 

@@ -6,7 +6,7 @@
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 12:07:46 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/05/24 15:27:55 by jgasparo         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:16:13 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(const char *s)
 	int	len;
 
 	len = 0;
+	if (!s)
+		return (1);
 	while (s[len] != '\0')
 		len++;
 	return (len);

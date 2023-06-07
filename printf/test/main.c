@@ -57,6 +57,10 @@ int main(int ac, char **av)
    printf("%s!\n", str);
    ft_printf("%x\n", -0);
    printf("%x!\n", -0);
+
+      int res91 = printf("Hexa min MAJ : %x %X\n", 0, 0);
+   int res92 = ft_printf("Hexa min MAJ : %x %X\n", 0, 0);
+   printf("res = %d et ft_res = %d\n", res91, res92);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: jgasparo <jgasparo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:34:45 by jgasparo          #+#    #+#             */
-/*   Updated: 2023/06/06 16:12:23 by jgasparo         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:34:55 by jgasparo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	swap(char *a, char *b)
 	*a = *b;
 	*b = temp;
 }
-
+/*
 char	*hexa(uintptr_t hex, char c)
 {
 	char	*hexa;
@@ -118,63 +118,81 @@ char	*hexa(uintptr_t hex, char c)
 		result[i] = hexa[ihexa];
 		hex /= 16;
 		i++;
+		ft_putchar(result[i]);
 	}
 	result[i] = '\0';
 	return (result);
 	ft_strlen(result);
-	free (result);
+	//free (result);
+}*/
+
+/*
+void	ft_hexa(uintptr_t hex, char c, size_t *count)
+{
+	char	*hexa;
+	int		ihexa;
+
+	hexa = "0123456789abcdef";
+	if (c == 'X')
+		hexa = "0123456789ABCDEF";
+	if (hex >= 16)
+	{
+		ft_hexa(hex / 16, c, count);
+		ihexa = hex % 16;
+		ft_putchar(hexa[ihexa]);
+		(*count)++;
+	}
+	else
+		ft_putchar(hexa[hex]);
+}
+*/
+
+void	ft_hexa(uintptr_t hex, char c, size_t *count)
+{
+	if (hex >= 16)
+	{
+		ft_hexa(hex / 16, c, count);
+		ft_hexa(hex % 16, c, count);
+	}
+	else if (c == 'X')
+	{
+		(*count)++;
+		ft_putchar("0123456789ABCDEF"[hex]);
+	}
+	else
+	{
+		(*count)++;
+		ft_putchar("0123456789abcdef"[hex]);
+	}
 }
 
-int	print_ptr(unsigned long ptr)
+void	print_ptr(unsigned long long int ptr, size_t *count)
 {
-	char		*result;
-	char		*prefix;
-	int			start;
-	int			end;
+	//char	*prefix;
 
-	result = NULL;
 	if (!ptr)
 	{
 		ft_putchar('0');
-		return (1);
+		(*count)++;
+		return ;
 	}
-	prefix = "0x";
-	result = hexa((uintptr_t)ptr, 'c');
-	start = 0;
-	end = ft_strlen(result) - 1;
-	while (start < end)
-		swap(&result[start++], &result[end--]);
-	//result += write(1, "0x", 2);
-	return (ft_strlen(2 + result));
-	ft_putstr_fd(prefix, 1);
-	ft_putstr_fd(result, 1);
-	free(result);
+	//prefix = "0x";
+	//ft_putstr_fd(prefix, 1);
+	ft_hexa((uintptr_t)ptr, 'c', count);
 }
 
-int	print_hexa(unsigned int nb, char c)
+void	print_hexa(unsigned int nb, char c, size_t *count)
 {
-	char	*result;
-	int		start;
-	int		end;
-
-	result = NULL;
 	if (nb < 0)
 		nb = 0;
-	result = hexa(nb, c);
-	start = 0;
-	end = ft_strlen(result) - 1;
-	while (start < end)
-		swap(&result[start++], &result[end--]);
-	return (ft_strlen(result));
-	ft_putstr_fd(result, 1);
-	free(result);
+	ft_hexa(nb, c, count);
 }
-/*char	ft_check(char c)
+char	ft_check(char c)
 {
 	if	(c == 'c' || c == 'd' || c == 'i' || c == 's' || c == '%' || c == 'u' || c == 'p' || c == 'x' || c == 'X')
 		return (1);
 	return(0);
-}*/
+}
 
 int	convert(va_list args , char format, size_t count)
 {
@@ -187,9 +205,13 @@ int	convert(va_list args , char format, size_t count)
 	else if (format == 'u')
 		ft_uint(va_arg(args, unsigned int), &count);
 	else if (format == 'p')
-		count += print_ptr((unsigned long)va_arg(args, void *)) + 2;
+	{
+		ft_putstr_fd("0x", 1);
+		count += 2;
+		print_ptr((unsigned long long int)va_arg(args, void *), &count);
+	}
 	else if (format == 'x' || format == 'X')
-		print_hexa(va_arg(args, unsigned int), format);
+		print_hexa(va_arg(args, unsigned int), format, &count);
 	else if (format == '%')
 		count += ft_putchar('%');
 	return (count);
@@ -208,7 +230,7 @@ int	ft_printf(const char *format, ...)
 		return (0);
 	while (format[i])
 	{
-		if (format[i] == '%')
+		if (format[i] == '%' && ft_check(format[i]) == 1)
 		{
 			count = convert(args, format[i + 1], count);
 			i++;

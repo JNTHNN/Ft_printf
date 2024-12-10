@@ -1,6 +1,5 @@
 # ft_printf
 
-## 📝 Description  
 **ft_printf** est une réimplémentation de la fonction standard `printf`. Le projet consiste à coder une version simplifiée mais fonctionnelle, capable de gérer plusieurs types et spécificateurs de format.
 
 ---
